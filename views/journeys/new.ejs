@@ -1,0 +1,50 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+  <h1 class="text-center">New Journey</h1>
+  <div class="col-md-6 offset-md-3">
+    <form action="/journeys" method="POST" novalidate class="validated-form">
+      <div class="mb-3">
+        <label class="form-label" for="date">Date</label>
+        <input class="form-control" type="date" id="datepicker" name="journey[date]" required />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="transport">Transport</label>
+        <input
+          class="form-control"
+          type="text"
+          id="transport"
+          name="journey[transport]"
+          placeholder="Type of transport (e.g. train, car, walk, airplane etc.)"
+          autocomplete="off"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <p>Waypoints</p>
+      <button id="addRow" type="button" class="btn btn-info mb-3">Add Waypoint</button>
+      <div id="inputFormRow">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            name="locations"
+            class="form-control m-input"
+            placeholder="Enter waypoint (e.g. Los Angeles, California)"
+            autocomplete="off"
+            required
+          />
+          <div class="input-group-append">
+            <button id="removeRow" type="button" class="btn btn-danger mx-1">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="newRow"></div>
+
+      <div class="mb-3">
+        <button class="btn btn-success">Add Journey</button>
+      </div>
+    </form>
+    <a href="/journeys">All Journeys</a>
+  </div>
+</div>

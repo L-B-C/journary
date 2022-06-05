@@ -1,0 +1,67 @@
+<% layout('layouts/boilerplate') %>
+<!-- ATTENTION: map inline style only, otherwise issues with leaflet map representation that leads to 
+     overflow:hidden of leaflet-containter class -->
+<% if(journeys.length>0) { %>
+<div class="<%= journeys.length===0 ? 'd-none' : '' %>">
+  <div class="mb-3" style="width: 100%; height: 300px; position: relative" id="map"></div>
+  <div class="mb-3">
+    <div class="col-md-3">
+      <form class="search" action="/journeys/search" method="GET">
+        <div class="input-group">
+          <input class="form-control" name="date" id="datepicker" type="date" />
+          <button type="submit" class="btn btn-info mx-2">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="journeys">
+  <% for(let journey of journeys) { %>
+  <div class="card mb-3">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= (journey.waypoints.length > 1) ? "From " + journey.waypoints[0].location +" to " +
+            journey.waypoints[journey.waypoints.length-1].location : "Trip to " + journey.waypoints[0].location %>
+          </h5>
+          <p class="card-text">
+            Date: <%= journey.date.getDate() + " " + journey.date.toLocaleString('en-US', { month: 'long' }) + " " +
+            journey.date.getFullYear() %>
+          </p>
+          <p class="card-text">Transport: <%= journey.transport%></p>
+          <a href="/journeys/<%=journey._id%>" class="btn btn-primary"> View journey </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>
+<script>
+  const journeys = <%- JSON.stringify(journeys) %>;
+</script>
+<script src="/javascripts/indexPageMap.js"></script>
+
+<% } else {%>
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">It looks kind of empty here!</h5>
+        <p class="card-text">
+          Journary lets you rember travel experiences by saving your journeys. A journey is composed of the date in
+          which the journey took place, the transport you used for travelling, like a car, a bus, a plane etc. and a
+          series of waypoints, that is a list of different places you visited during your path.
+        </p>
+        <p class="card-text">JOURNEY EXAMPLE:</p>
+        <p class="card-text">Date: 2-07-2021</p>
+        <p class="card-text">Transport: Airplane</p>
+        <p class="card-text">First waypoint: Los Angeles, California</p>
+        <p class="card-text">Second waypoint: Miami, Florida</p>
+        <span>Why don't you start?</span>
+        <a href="journeys/new"> Create a new journey</a>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>

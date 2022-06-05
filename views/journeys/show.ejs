@@ -1,0 +1,42 @@
+<% layout('layouts/boilerplate')%>
+
+<!-- ATTENTION: map inline style only, otherwise issues with leaflet map representation that leads to 
+     overflow:hidden of leaflet-containter class -->
+<div style="width: 100%; height: 300px; position: relative" id="map"></div>
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">
+          <%= (journey.waypoints.length > 1) ? "From " + journey.waypoints[0].location +" to " +
+          journey.waypoints[journey.waypoints.length-1].location : "Trip to " + journey.waypoints[0].location %>
+        </h5>
+        <p class="card-text">
+          Date: <%= journey.date.getDate() + " " + journey.date.toLocaleString('en-US', { month: 'long' }) + " " +
+          journey.date.getFullYear() %>
+        </p>
+        <p class="card-text">Transport: <%= journey.transport %></p>
+        <ul class="list-group">
+          <% if(journey.waypoints.length > 1) { journey.waypoints.forEach((waypoint,i) => { %>
+          <li class="list-group-item"><%= i+1 %> <%= waypoint.location %></li>
+          <% }) } else { %>
+          <li class="list-group-item"><%= journey.waypoints[0].location %></li>
+          <% } %>
+        </ul>
+        <% if(currentUser && journey.author.equals(currentUser._id)) { %>
+        <div class="card-body">
+          <a href="/journeys/<%=journey._id%>/edit" class="card-link btn btn-info">Edit</a>
+          <form action="/journeys/<%=journey._id%>?_method=DELETE" method="post" class="d-inline">
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const journey = <%- JSON.stringify(journey)%>;
+</script>
+<script src="/javascripts/showPageMap.js"></script>

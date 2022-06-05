@@ -1,0 +1,61 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+  <h1 class="text-center">Edit Journey</h1>
+  <div class="col-md-6 offset-md-3">
+    <form action="/journeys/<%=journey._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+      <div class="mb-3">
+        <label class="form-label" for="date">Date</label>
+        <input
+          class="form-control"
+          type="date"
+          id="datepicker"
+          name="journey[date]"
+          placeholder="<%=journey.date.toISOString().substring(0,10)%>"
+          value="<%= journey.date.toISOString().substring(0,10)%>"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="transport">Transport</label>
+        <input
+          class="form-control"
+          type="text"
+          id="transport"
+          name="journey[transport]"
+          value="<%=journey.transport %>"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <p>Waypoints</p>
+        <button id="addRow" type="button" class="btn btn-info mb-3">Add Waypoint</button>
+        <% journey.waypoints.forEach(function (waypoint, i) { %>
+        <div id="inputFormRow">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              name="locations"
+              class="form-control m-input"
+              value="<%=waypoint.location %>"
+              placeholder="<%=waypoint.location %>"
+              autocomplete="off"
+              required
+            />
+            <div class="input-group-append">
+              <button id="removeRow" type="button" class="btn btn-danger mx-1">Remove</button>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+        <div id="newRow"></div>
+      </div>
+
+      <div class="mb-3">
+        <button class="btn btn-success">Update Journey</button>
+      </div>
+    </form>
+    <a href="/campgrounds/<%= journey._id%>">Back To Journeys</a>
+  </div>
+</div>
